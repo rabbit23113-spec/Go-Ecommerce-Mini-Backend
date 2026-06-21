@@ -14,12 +14,13 @@ type Handler struct {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.New()
+	authHandler := AuthHandler{Service: h.Service}
 	auth := r.Group("/auth")
 	{
-		auth.POST("/signup", nil)
-		auth.POST("/signin", nil)
-		auth.POST("/logout", nil)
-		auth.POST("/revoke", nil)
+		auth.POST("/signup", authHandler.SignUp)
+		auth.POST("/signin", authHandler.SignIn)
+		auth.POST("/logout", authHandler.LogOut)
+		auth.POST("/revoke", authHandler.Revoke)
 	}
 	users := r.Group("/users")
 	{
