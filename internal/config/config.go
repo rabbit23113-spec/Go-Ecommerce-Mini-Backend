@@ -18,10 +18,9 @@ type DBConfig struct {
 	Url      string `yaml:"url"`
 }
 
-func (c *Config) ReadConfig() (*Config, error) {
-	var config *Config
-	os.Chdir("../internal/config")
-	file, err := os.ReadFile("config.yaml")
+func ReadConfig() (*Config, error) {
+	var config Config
+	file, err := os.ReadFile("/app/internal/config/config.yaml")
 	if err != nil {
 		return &Config{}, err
 	}
@@ -29,5 +28,5 @@ func (c *Config) ReadConfig() (*Config, error) {
 	if err != nil {
 		return &Config{}, err
 	}
-	return config, nil
+	return &config, nil
 }

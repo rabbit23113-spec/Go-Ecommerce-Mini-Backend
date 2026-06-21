@@ -10,8 +10,7 @@ import (
 )
 
 func main() {
-	cfg := config.Config{}
-	config, err := cfg.ReadConfig()
+	config, err := config.ReadConfig()
 	if err != nil {
 		log.Fatalf("Error while reading the config: %s", err)
 	}
@@ -24,7 +23,7 @@ func main() {
 	srvc := service.InitService()
 	handler := handler.Handler{Config: config, Service: srvc}
 	srv := new(Server)
-	srv.Serve(cfg.Port, handler.InitRoutes())
+	srv.Serve(config.Port, handler.InitRoutes())
 }
 
 type Server struct {

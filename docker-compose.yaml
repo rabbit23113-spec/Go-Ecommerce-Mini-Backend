@@ -1,0 +1,12 @@
+services:
+  go-ecommerce-database:
+    image: postgres
+    container_name: ecommerce-database
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: go-ecommerce-database
+  ecommerce-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
