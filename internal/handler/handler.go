@@ -14,8 +14,11 @@ type Handler struct {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.New()
+
 	authHandler := AuthHandler{Service: h.Service}
 	usersHandler := UsersHandler{Service: h.Service}
+	productsHandler := ProductsHandler{Service: h.Service}
+
 	auth := r.Group("/auth")
 	{
 		auth.POST("/signup", authHandler.SignUp)
@@ -23,6 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/logout", authHandler.LogOut)
 		auth.POST("/revoke", authHandler.Revoke)
 	}
+
 	users := r.Group("/users")
 	{
 		users.GET("/me", usersHandler.Me)
@@ -33,13 +37,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		users.PATCH("/update", usersHandler.Update)
 		users.DELETE("/delete", usersHandler.Delete)
 	}
+
 	products := r.Group("/products")
 	{
-		products.GET("/find", nil)
-		products.POST("/create", nil)
-		products.PATCH("/update", nil)
-		products.DELETE("/delete", nil)
+		products.GET("/find", productsHandler.Find)
+		products.POST("/create", productsHandler.Create)
+		products.PATCH("/update", productsHandler.Update)
+		products.DELETE("/delete", productsHandler.Delete)
 	}
+
 	warehouses := r.Group("/warehouses")
 	{
 		warehouses.GET("/find", nil)
@@ -48,6 +54,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		warehouses.PATCH("/update", nil)
 		warehouses.DELETE("/delete", nil)
 	}
+
 	orders := r.Group("/orders")
 	{
 		orders.GET("/find/all", nil)
