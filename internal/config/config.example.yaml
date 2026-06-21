@@ -1,0 +1,6 @@
+port: "8080"
+db:
+  username: "postgres"
+  password: "postgres"
+  name: "go-ecommerce-database"
+  url: "postgres://postgres:postgres@localhost:5432/go-ecommerce-database?sslmode=disable"
