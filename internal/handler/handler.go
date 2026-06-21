@@ -15,6 +15,7 @@ type Handler struct {
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.New()
 	authHandler := AuthHandler{Service: h.Service}
+	usersHandler := UsersHandler{Service: h.Service}
 	auth := r.Group("/auth")
 	{
 		auth.POST("/signup", authHandler.SignUp)
@@ -24,13 +25,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 	users := r.Group("/users")
 	{
-		users.GET("/me", nil)
-		users.GET("/find/all", nil)
-		users.GET("/find/id/", nil)
-		users.GET("/find/email/", nil)
-		users.POST("/create", nil)
-		users.PATCH("/update", nil)
-		users.DELETE("/delete", nil)
+		users.GET("/me", usersHandler.Me)
+		users.GET("/find/all", usersHandler.FindAll)
+		users.GET("/find/id/", usersHandler.FindById)
+		users.GET("/find/email/", usersHandler.FindByEmail)
+		users.POST("/create", usersHandler.Create)
+		users.PATCH("/update", usersHandler.Update)
+		users.DELETE("/delete", usersHandler.Delete)
 	}
 	products := r.Group("/products")
 	{
