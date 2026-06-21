@@ -19,6 +19,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	usersHandler := UsersHandler{Service: h.Service}
 	productsHandler := ProductsHandler{Service: h.Service}
 	warehousesHandler := WarehousesHandler{Service: h.Service}
+	ordersHandler := OrdersHandler{Service: h.Service}
 
 	auth := r.Group("/auth")
 	{
@@ -58,12 +59,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	orders := r.Group("/orders")
 	{
-		orders.GET("/find/all", nil)
-		orders.GET("/find/user", nil)
-		orders.GET("/find/product", nil)
-		orders.POST("/create", nil)
-		orders.PATCH("/update", nil)
-		orders.DELETE("/delete", nil)
+		orders.GET("/find/all", ordersHandler.FindAll)
+		orders.GET("/find/user", ordersHandler.FindByUserId)
+		orders.GET("/find/product", ordersHandler.FindByProductId)
+		orders.POST("/create", ordersHandler.Create)
+		orders.PATCH("/update", ordersHandler.Update)
+		orders.DELETE("/delete", ordersHandler.Delete)
 	}
 	return r
 }
