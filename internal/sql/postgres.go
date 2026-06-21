@@ -1,4 +1,4 @@
-package sql
+package db
 
 import (
 	"main/internal/config"
@@ -7,11 +7,11 @@ import (
 )
 
 type Postgres struct {
-	config *config.Config
+	Config *config.Config
 }
 
-func (p *Postgres) NewPostgres(dsn string) (*sqlx.DB, error) {
-	db, err := sqlx.Connect("postgres", p.config.DBConfig.Url)
+func (p *Postgres) NewPostgres() (*sqlx.DB, error) {
+	db, err := sqlx.Connect("postgres", p.Config.DBConfig.Url)
 	if err != nil {
 		return &sqlx.DB{}, err
 	}

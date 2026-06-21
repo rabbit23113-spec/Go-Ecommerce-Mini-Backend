@@ -1,7 +1,11 @@
 package handler
 
-import "main/internal/config"
+import (
+	"main/internal/config"
+	"main/internal/service"
+)
 
 type Handler struct {
-	config *config.Config
+	Service *service.Service
+	Config  *config.Config
 }
