@@ -17,8 +17,8 @@ type UserDto struct {
 }
 
 type CreateUserDto struct {
-	Email        string `json:"email"`
-	PasswordHash string `json:"passwordHash"`
+	Email        string `json:"email" db:"email"`
+	PasswordHash string `json:"passwordHash" db:"password_hash"`
 }
 
 // products
@@ -31,8 +31,8 @@ type ProductDto struct {
 }
 
 type CreateProductDto struct {
-	Name  string `json:"name"`
-	Price uint64 `json:"price"`
+	Name  string `json:"name" db:"name"`
+	Price uint64 `json:"price" db:"price"`
 }
 
 // warehouses
@@ -45,8 +45,8 @@ type WarehouseDto struct {
 }
 
 type CreateWarehouseDto struct {
-	Location string `json:"location"`
-	Status   string `json:"status"`
+	Location string `json:"location" db:"location"`
+	Status   string `json:"status" db:"status"`
 }
 
 type AddProductsToWarehouseDto struct {
@@ -76,4 +76,13 @@ type AuthSessionDto struct {
 	TokenHash string    `json:"tokenHash" db:"token_hash"`
 	RevokedAt time.Time `json:"revokedAt" db:"revoked_at"`
 	CreatedAt time.Time `json:"createdAt" db:"created_at"`
+}
+
+type CreateAuthSessionResponse struct {
+	AccessToken string `json:"refreshToken"`
+}
+
+type SignInDto struct {
+	Email        string `json:"email" db:"email"`
+	PasswordHash string `json:"passwordHash" db:"password_hash"`
 }

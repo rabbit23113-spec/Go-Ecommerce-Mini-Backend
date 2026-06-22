@@ -2,6 +2,7 @@ package handler
 
 import (
 	"main/internal/service"
+	"main/package/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,11 +13,15 @@ type AuthHandler struct {
 }
 
 func (ah *AuthHandler) SignUp(ctx *gin.Context) {
-	ctx.JSON(http.StatusCreated, "mock sign up")
+	var req dto.CreateUserDto
+	ctx.ShouldBindJSON(&req)
+	ah.Service.AuthService.SignUp(req)
 }
 
 func (ah *AuthHandler) SignIn(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "mock sign in")
+	var req dto.SignInDto
+	ctx.ShouldBindJSON(&req)
+	ah.Service.AuthService.SignIn(req)
 }
 
 func (ah *AuthHandler) LogOut(ctx *gin.Context) {
