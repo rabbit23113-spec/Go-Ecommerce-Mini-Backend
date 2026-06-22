@@ -2,8 +2,10 @@ services:
   go-ecommerce-database:
     image: postgres
     container_name: ecommerce-database
+    ports:
+      - "5495:5432"
     environment:
-      POSTGRES_USERNAME: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: go-ecommerce-database
   ecommerce-app:
