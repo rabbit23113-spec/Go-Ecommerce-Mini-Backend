@@ -21,6 +21,10 @@ type CreateUserDto struct {
 	PasswordHash string `json:"passwordHash" db:"password_hash"`
 }
 
+type FindByEmailDto struct {
+	Email string `json:"email" db:"email"`
+}
+
 // products
 
 type ProductDto struct {
