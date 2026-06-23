@@ -46,9 +46,9 @@ func (uh *UsersHandler) FindById(ctx *gin.Context) {
 }
 
 func (uh *UsersHandler) FindByEmail(ctx *gin.Context) {
-	var req dto.FindByEmailDto
-	ctx.ShouldBindJSON(&req)
-	resp, err := uh.Service.UserService.FindByEmail(req.Email)
+	var body dto.FindByEmailDto
+	ctx.ShouldBindJSON(&body)
+	resp, err := uh.Service.UserService.FindByEmail(body.Email)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -57,9 +57,9 @@ func (uh *UsersHandler) FindByEmail(ctx *gin.Context) {
 }
 
 func (uh *UsersHandler) Create(ctx *gin.Context) {
-	var req dto.CreateUserDto
-	ctx.ShouldBindJSON(req)
-	resp, err := uh.Service.UserService.Create(req)
+	var body dto.CreateUserDto
+	ctx.ShouldBindJSON(body)
+	resp, err := uh.Service.UserService.Create(body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
