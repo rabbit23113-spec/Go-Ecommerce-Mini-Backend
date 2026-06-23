@@ -16,7 +16,7 @@ func (uh *UsersHandler) Me(ctx *gin.Context) {
 	id, _ := ctx.Params.Get("id")
 	resp, err := uh.Service.UserService.Me(id)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, resp)
@@ -25,17 +25,21 @@ func (uh *UsersHandler) Me(ctx *gin.Context) {
 func (uh *UsersHandler) FindAll(ctx *gin.Context) {
 	resp, err := uh.Service.UserService.FindAll()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
 
 func (uh *UsersHandler) FindById(ctx *gin.Context) {
-	id, _ := ctx.Params.Get("id")
+	id, ok := ctx.Params.Get("id")
+	if ok != true {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "You should provide an id parameter"})
+		return
+	}
 	resp, err := uh.Service.UserService.FindById(id)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, resp)
@@ -46,7 +50,7 @@ func (uh *UsersHandler) FindByEmail(ctx *gin.Context) {
 	ctx.ShouldBindJSON(&req)
 	resp, err := uh.Service.UserService.FindByEmail(req.Email)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, resp)
@@ -57,7 +61,7 @@ func (uh *UsersHandler) Create(ctx *gin.Context) {
 	ctx.ShouldBindJSON(req)
 	resp, err := uh.Service.UserService.Create(req)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusCreated, resp)
@@ -68,9 +72,12 @@ func (uh *UsersHandler) Update(ctx *gin.Context) {
 }
 
 func (uh *UsersHandler) Delete(ctx *gin.Context) {
-	id, err := ctx.Params.Get("id")
-	if err != true {
-		ctx.JSON(http.StatusBadRequest, "You should provide an id parameter")
+	id, ok := ctx.Params.Get("id")
+	if ok != true {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "You should provide an id parameter"})
+		return
 	}
-	uh.Service.UserService.Delete(id)
+	if err := uh.Service.UserService.Delete(id); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
 }
