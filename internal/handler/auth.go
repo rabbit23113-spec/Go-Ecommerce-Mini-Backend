@@ -15,13 +15,23 @@ type AuthHandler struct {
 func (ah *AuthHandler) SignUp(ctx *gin.Context) {
 	var req dto.CreateUserDto
 	ctx.ShouldBindJSON(&req)
-	ah.Service.AuthService.SignUp(req)
+	resp, err := ah.Service.AuthService.SignUp(req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusCreated, resp)
 }
 
 func (ah *AuthHandler) SignIn(ctx *gin.Context) {
 	var req dto.SignInDto
 	ctx.ShouldBindJSON(&req)
-	ah.Service.AuthService.SignIn(req)
+	resp, err := ah.Service.AuthService.SignIn(req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusCreated, resp)
 }
 
 func (ah *AuthHandler) LogOut(ctx *gin.Context) {
